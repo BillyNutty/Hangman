@@ -10,24 +10,31 @@ const words = [
   "buttercup",
   "snorkeling",
   "wizard",
-  "handball",
+  "squirrel",
+  "mission",
   "scooter",
-  "firetrucks",
-  "balloons",
+  "porsche",
+  "handball",
+  "balloon",
   "chemistry",
   "barbeque",
   "whiskers",
   "buttery",
+  "biscuit",
+  "candy",
   "popcorn",
   "eminem",
+  "rabbit",
   "seatbelt",
-  "squirrel",
+  "ultimate",
+  "potato",
   "walker",
-  "cheesecake",
+  "ravioli",
 ];
 
 let selectedWord = words[Math.floor(Math.random() * words.length)];
 
+let playable = true;
 const correctLetters = [];
 const wrongLetters = [];
 
@@ -50,6 +57,8 @@ ${correctLetters.includes(letter) ? letter : ""}
   if (innerWord === selectedWord) {
     finalMessage.innerText = "Congratulations! You Won!";
     popup.style.display = "flex";
+
+    playable = false;
   }
 }
 
@@ -72,6 +81,8 @@ function updateWrongLettersEl() {
   if (wrongLetters.length === figureParts.length) {
     finalMessage.innerText = "Unfortunately, You Lost";
     popup.style.display = "flex";
+
+    playable = false;
   }
 }
 
@@ -83,30 +94,32 @@ function showNotification() {
 }
 
 window.addEventListener("keydown", (e) => {
-  console.log(e.key);
-  if (e.key >= "a" && e.key <= "z") {
-    const letter = e.key;
+  if (playable) {
+    if (e.key >= "a" && e.key <= "z") {
+      const letter = e.key;
 
-    if (selectedWord.includes(letter)) {
-      if (!correctLetters.includes(letter)) {
-        correctLetters.push(letter);
-        displayWord();
+      if (selectedWord.includes(letter)) {
+        if (!correctLetters.includes(letter)) {
+          correctLetters.push(letter);
+          displayWord();
+        } else {
+          showNotification();
+        }
       } else {
-        showNotification();
-      }
-    } else {
-      if (!wrongLetters.includes(letter)) {
-        wrongLetters.push(letter);
+        if (!wrongLetters.includes(letter)) {
+          wrongLetters.push(letter);
 
-        updateWrongLettersEl();
-      } else {
-        showNotification();
+          updateWrongLettersEl();
+        } else {
+          showNotification();
+        }
       }
     }
   }
 });
 
 playAgainBtn.addEventListener("click", () => {
+  playable = true;
   correctLetters.splice(0);
   wrongLetters.splice(0);
   selectedWord = words[Math.floor(Math.random() * words.length)];
