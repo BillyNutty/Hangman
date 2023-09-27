@@ -71,7 +71,6 @@ function updateWrongLettersEl() {
 
   if (wrongLetters.length === figureParts.length) {
     finalMessage.innerText = "Unfortunately, You Lost";
-    correctLetters.style.display = "hidden;
     popup.style.display = "flex";
   }
 }
